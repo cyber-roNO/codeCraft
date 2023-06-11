@@ -1,26 +1,44 @@
 <script>
 	import '../global.css';
 	import dogStart from '$lib/images/dog-start.png';
-	import dogHouse from '$lib/images/doghouse.png';
+	import dogHouse from '$lib/images/dogHouse.png';
 	import { afterUpdate } from 'svelte';
 	let strokes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+	let isCorrect = false;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let dogHouseElement;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let dogStartElement;
 
 	let questions = [
 		{
-			options: [''],
+			options: ['justify-content:flex-end'],
 			correctOptions: ['justify-content:flex-end']
 		},
 		{
+			options: [''],
+			correctOptions: ['align-items:flex-end']
+		},
+		{
 			options: ['', ''],
-			correctOptions: ['justify-content:center', 'align-items:center']
+			correctOptions: ['align-items:center', 'justify-content:center']
 		}
 	];
 	let answers = new Array(questions.length).fill(null);
 	let questionPointer = 0;
 	afterUpdate(() => {
-		let intersection = questions[questionPointer].options.filter((x) =>
-			questions[questionPointer].correctOptions.includes(x)
-		);
+		if (
+			dogHouseElement.getBoundingClientRect().x == dogStartElement.getBoundingClientRect().x &&
+			dogHouseElement.getBoundingClientRect().y == dogStartElement.getBoundingClientRect().y
+		) {
+			isCorrect = true;
+		} else {
+			isCorrect = false;
+		}
 	});
 </script>
 
@@ -59,6 +77,7 @@
 					<p class="bracket">{'}'}</p>
 					<button
 						class="editor-button"
+						disabled={!isCorrect}
 						on:click={() => {
 							questionPointer++;
 						}}>Next</button
@@ -72,10 +91,14 @@
 
 	<div class="view">
 		<div class="background" style={questions[questionPointer].correctOptions?.join(';')}>
-			<span class="img-wrapper doggy-house"><img src={dogHouse} alt="doggy-house" /></span>
+			<span bind:this={dogHouseElement} class="img-wrapper doggy-house"
+				><img src={dogHouse} alt="doggy-house" /></span
+			>
 		</div>
 		<div class="grass" style={questions[questionPointer].options.join(';')} id="content">
-			<span class="img-wrapper doggy"><img src={dogStart} alt="doggy" /></span>
+			<span bind:this={dogStartElement} class="img-wrapper doggy"
+				><img src={dogStart} alt="doggy" /></span
+			>
 		</div>
 	</div>
 </main>
@@ -176,9 +199,9 @@
 		width: 100%;
 		height: 100%;
 	}
-	.doggy {
-		width: 20rem;
-		height: 20rem;
+	.doggy img {
+		transform: scale(0.8);
+		margin-top: 25px;
 	}
 	.margin-l {
 		margin-left: 3rem;
