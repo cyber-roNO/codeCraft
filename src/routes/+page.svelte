@@ -2,8 +2,26 @@
 	import '../global.css';
 	import dogStart from '$lib/images/dog-start.png';
 	import dogHouse from '$lib/images/doghouse.png';
-	let option = '';
+	import { afterUpdate } from 'svelte';
 	let strokes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+	let questions = [
+		{
+			options: [''],
+			correctOptions: ['justify-content:flex-end']
+		},
+		{
+			options: ['', ''],
+			correctOptions: ['justify-content:center', 'align-items:center']
+		}
+	];
+	let answers = new Array(questions.length).fill(null);
+	let questionPointer = 0;
+	afterUpdate(() => {
+		let intersection = questions[questionPointer].options.filter((x) =>
+			questions[questionPointer].correctOptions.includes(x)
+		);
+	});
 </script>
 
 <svelte:head>
@@ -15,33 +33,48 @@
 	/>
 </svelte:head>
 <main>
-	<div class="editor-wrapper">
-		<p>
-			Help all three frogs find their lilypads just by using justify-content. This time, the
-			lilypads have lots of space all around them.
-		</p>
-		<div class="editor">
-			<div class="editor-strokes">
-				{#each strokes as item}
-					<span>
-						{item}
-					</span>
-				{/each}
-			</div>
-			<div class="editor-area">
-				<p>#content <span class="bracket">{'{'}</span></p>
-				<p class="margin-l red"><span class="blue">display:</span> flex;</p>
-				<input class="editor-input margin-l" type="text" bind:value={option} />
-				<p class="bracket">{'}'}</p>
-				<button class="editor-button">Next</button>
+	{#if questionPointer == -1}
+		<div class="editor-wrapper"><button on:click={() => (questionPointer = 0)}>start</button></div>
+	{:else if !(questionPointer > answers.length - 1)}
+		<div class="editor-wrapper">
+			<p>
+				Help all three frogs find their lilypads just by using justify-content. This time, the
+				lilypads have lots of space all around them.
+			</p>
+			<div class="editor">
+				<div class="editor-strokes">
+					{#each strokes as item}
+						<span>
+							{item}
+						</span>
+					{/each}
+				</div>
+				<div class="editor-area">
+					<p>#content <span class="bracket">{'{'}</span></p>
+					<p class="margin-l red"><span class="blue">display:</span> flex;</p>
+					{#each questions[questionPointer].options as option}
+						<input class="editor-input margin-l" type="text" bind:value={option} />
+					{/each}
+
+					<p class="bracket">{'}'}</p>
+					<button
+						class="editor-button"
+						on:click={() => {
+							questionPointer++;
+						}}>Next</button
+					>
+				</div>
 			</div>
 		</div>
-	</div>
+	{:else}
+		<div class="editor-wrapper">end</div>
+	{/if}
+
 	<div class="view">
-		<div class="background">
+		<div class="background" style={questions[questionPointer].correctOptions?.join(';')}>
 			<span class="img-wrapper doggy-house"><img src={dogHouse} alt="doggy-house" /></span>
 		</div>
-		<div class="grass" style={option} id="content">
+		<div class="grass" style={questions[questionPointer].options.join(';')} id="content">
 			<span class="img-wrapper doggy"><img src={dogStart} alt="doggy" /></span>
 		</div>
 	</div>
@@ -91,7 +124,7 @@
 		font-size: 1.6rem;
 		font-family: 'Source Code Pro', monospace;
 		letter-spacing: 0.2rem;
-		background: #2f2f2f;
+		background: #404040;
 		color: white;
 	}
 	.editor-button {
@@ -107,6 +140,10 @@
 		cursor: pointer;
 		font-family: 'Source Code Pro', monospace;
 	}
+	.editor-button:disabled {
+		opacity: 0.5;
+	}
+
 	.view {
 		height: 100vh;
 		width: 50vw;
@@ -125,8 +162,6 @@
 	}
 	.background {
 		z-index: 10;
-		justify-content: center;
-		align-items: center;
 	}
 	.grass {
 		z-index: 20;
