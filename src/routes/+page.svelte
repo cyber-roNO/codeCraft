@@ -19,7 +19,7 @@
 		<div class="background">
 			<span class="img-wrapper doggy-house"><img src={dogHouse} alt="doggy-house" /></span>
 		</div>
-		<div class="grass" style={result}>
+		<div class="grass" style="{result};{result2}">
 			<span class="img-wrapper doggy"><img src={dogStart} alt="doggy" /></span>
 		</div>
 	</div>
