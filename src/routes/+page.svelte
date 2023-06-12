@@ -1,39 +1,106 @@
 <script>
 	import '../global.css';
-	import dogStart from '$lib/images/dog-start.png';
-	import dogHouse from '$lib/images/dogHouse.png';
+	import dogJohnny from '$lib/images/dog-johnny.png';
+	import dogCharlie from '$lib/images/dog-charlie.png';
+	import dogFreddy from '$lib/images/dog-freddy.png';
+	import houseJohnny from '$lib/images/house-johnny.png';
+	import houseCharlie from '$lib/images/house-charlie.png';
+	import houseFreddy from '$lib/images/house-freddy.png';
 	import { afterUpdate } from 'svelte';
+
+	let questions = [
+		{
+			content:
+				'Добро пожаловать в Help Johnny. Игра, в которой тебе нужно помочь псу Джонни найти дорогу в свою уютную будку с помощью технологии FlexBox! Направь нашего верного друга в правую часть, используя свойство justify-content. Это свойство CSS выравнивает элементы горизонтально и принимает следующие значения: flex-start, flex-end, center, space-between, space-around.',
+			options: ['justify-content:flex-end'],
+			correctOptions: ['justify-content:flex-end'],
+			dogs: [dogJohnny]
+		},
+		{
+			content:
+				'Познакомьтесь с Чарли, он будет помогать вам разбираться во FlexBox вместе с Джонни. Теперь тебе снова нужно использовать свойство justify-content, но на этот раз направь наших верных помошников в центр. Помни, что у каждой собаки своя будка.',
+			options: ['justify-content:center'],
+			correctOptions: ['justify-content:center'],
+			dogs: [dogJohnny, dogCharlie]
+		},
+		{
+			content:
+				'Познакомьтесь с Фредди, он будет помогать вам разбираться во FlexBox вместе с Джонни и Чарли. Теперь тебе снова нужно использовать свойство justify-content, но на этот раз распредели наших верных помошников так, чтобы между ними было одинаковое расстояние.',
+			options: ['justify-content:space-between'],
+			correctOptions: ['justify-content:space-between'],
+			dogs: [dogJohnny, dogCharlie, dogFreddy]
+		},
+		{
+			content:
+				'Теперь используй align-items, чтобы помочь Джонни и Чарли добраться до нижней части. Это свойство CSS выравнивает элементы вертикально и принимает следующие значения: flex-start, flex-end, center, baseline, stretch.',
+			options: ['align-items:flex-end'],
+			correctOptions: ['align-items:flex-end'],
+			dogs: [dogJohnny, dogCharlie]
+		},
+		{
+			content: 'Направь Джонни в центр, используя justify-content и align-items вместе.',
+			options: ['justify-content:center', 'align-items:center'],
+			correctOptions: ['justify-content:center', 'align-items:center'],
+			dogs: [dogJohnny]
+		},
+		{
+			content:
+				'Собачкам снова нужно пересечь все пространство и отправиться в нижнуюю часть. В этот раз к будкам, с достаточно большим пространством вокруг них. Используй комбинацию justify-content и align-items.',
+			options: ['justify-content:space-between', 'align-items:flex-end'],
+			correctOptions: ['justify-content:space-between', 'align-items:flex-end'],
+			dogs: [dogJohnny, dogCharlie, dogFreddy]
+		},
+		{
+			content:
+				'Собачкам нужно выстроиться в том же порядке, что и их будки (напомним, что у Джонни - коричневая, у Чарли - белая, у Фредди - желтая), используя flex-direction. Это свойство CSS задает направление, в котором будут расположены элементы в контейнере, и принимает следующие значения: row, row-reverse, column, column-reverse.',
+			options: ['flex-direction:row-reverse'],
+			correctOptions: ['flex-direction:row-reverse'],
+			dogs: [dogJohnny, dogCharlie, dogFreddy]
+		},
+		{
+			content:
+				'Теперь помоги собачкам переместиться в свои будки, которые расположены вертикально, используя flex-direction',
+			options: ['flex-direction:row-reverse'],
+			correctOptions: ['flex-direction:row-reverse'],
+			dogs: [dogJohnny, dogCharlie, dogFreddy]
+		}
+	];
+
 	let strokes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 	let isCorrect = false;
 	/**
 	 * @type {HTMLSpanElement}
 	 */
-	let dogHouseElement;
+	let houseJohnnyElement;
 	/**
 	 * @type {HTMLSpanElement}
 	 */
-	let dogStartElement;
+	let dogJohnnyElement;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let houseCharlieElement;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let dogCharlieElement;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let houseFreddyElement;
+	/**
+	 * @type {HTMLSpanElement}
+	 */
+	let dogFreddyElement;
 
-	let questions = [
-		{
-			options: ['justify-content:flex-end'],
-			correctOptions: ['justify-content:flex-end']
-		},
-		{
-			options: [''],
-			correctOptions: ['align-items:flex-end']
-		},
-		{
-			options: ['', ''],
-			correctOptions: ['align-items:center', 'justify-content:center']
-		}
-	];
 	let answers = new Array(questions.length).fill(null);
+
 	let questionPointer = 0;
+
 	afterUpdate(() => {
 		if (
-			dogHouseElement.getBoundingClientRect().x == dogStartElement.getBoundingClientRect().x &&
-			dogHouseElement.getBoundingClientRect().y == dogStartElement.getBoundingClientRect().y
+			houseJohnnyElement.getBoundingClientRect().x == dogJohnnyElement.getBoundingClientRect().x &&
+			houseJohnnyElement.getBoundingClientRect().y == dogJohnnyElement.getBoundingClientRect().y
 		) {
 			isCorrect = true;
 		} else {
@@ -43,7 +110,7 @@
 </script>
 
 <svelte:head>
-	<title>codeCraft</title>
+	<title>Help Johnny</title>
 	<meta name="description" content="codeCraft app" />
 	<link
 		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Source+Code+Pro&display=swap"
@@ -51,13 +118,11 @@
 	/>
 </svelte:head>
 <main>
-	{#if questionPointer == -1}
-		<div class="editor-wrapper"><button on:click={() => (questionPointer = 0)}>start</button></div>
-	{:else if !(questionPointer > answers.length - 1)}
+	{#if !(questionPointer > answers.length - 1)}
 		<div class="editor-wrapper">
-			<p>
-				Help all three frogs find their lilypads just by using justify-content. This time, the
-				lilypads have lots of space all around them.
+			<h1 class="editor-logo">HELP JOHNNY</h1>
+			<p class="editor-text">
+				{questions[questionPointer].content}
 			</p>
 			<div class="editor">
 				<div class="editor-strokes">
@@ -80,7 +145,7 @@
 						disabled={!isCorrect}
 						on:click={() => {
 							questionPointer++;
-						}}>Next</button
+						}}>Следующий</button
 					>
 				</div>
 			</div>
@@ -91,14 +156,34 @@
 
 	<div class="view">
 		<div class="background" style={questions[questionPointer].correctOptions?.join(';')}>
-			<span bind:this={dogHouseElement} class="img-wrapper doggy-house"
-				><img src={dogHouse} alt="doggy-house" /></span
+			<span bind:this={houseJohnnyElement} class="img-wrapper doggy-house"
+				><img src={houseJohnny} alt="house" /></span
 			>
+			{#if questions[questionPointer].dogs?.length > 1}
+				<span bind:this={houseCharlieElement} class="img-wrapper doggy-house"
+					><img src={houseCharlie} alt="house" /></span
+				>
+			{/if}
+			{#if questions[questionPointer].dogs?.length > 2}
+				<span bind:this={houseFreddyElement} class="img-wrapper doggy-house"
+					><img src={houseFreddy} alt="house" /></span
+				>
+			{/if}
 		</div>
 		<div class="grass" style={questions[questionPointer].options.join(';')} id="content">
-			<span bind:this={dogStartElement} class="img-wrapper doggy"
-				><img src={dogStart} alt="doggy" /></span
+			<span bind:this={dogJohnnyElement} class="img-wrapper doggy"
+				><img src={dogJohnny} alt="doggy" /></span
 			>
+			{#if questions[questionPointer].dogs?.length > 1}
+				<span bind:this={dogCharlieElement} class="img-wrapper doggy"
+					><img src={dogCharlie} alt="doggy" /></span
+				>
+			{/if}
+			{#if questions[questionPointer].dogs?.length > 2}
+				<span bind:this={dogFreddyElement} class="img-wrapper doggy"
+					><img src={dogFreddy} alt="doggy" /></span
+				>
+			{/if}
 		</div>
 	</div>
 </main>
@@ -115,6 +200,15 @@
 		width: 50%;
 		color: white;
 		padding: 2rem;
+		display: flex;
+		flex-direction: column;
+	}
+	.editor-logo {
+		margin-bottom: 3rem;
+	}
+	.editor-text {
+		margin-bottom: 2rem;
+		line-height: 150%;
 	}
 	.editor {
 		display: flex;
@@ -181,7 +275,7 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
-		padding: 1em;
+		padding: 3rem;
 	}
 	.background {
 		z-index: 10;
@@ -200,7 +294,7 @@
 		height: 100%;
 	}
 	.doggy img {
-		transform: scale(0.8);
+		transform: scale(0.75);
 		margin-top: 25px;
 	}
 	.margin-l {
