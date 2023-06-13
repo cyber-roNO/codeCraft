@@ -23,9 +23,39 @@
 	let answers = new Array(questions.length).fill(null);
 
 	afterUpdate(() => {
+		const houseJohnnyPosition = {
+			x: houseJohnnyElement?.getBoundingClientRect().x | 1,
+			y: houseJohnnyElement?.getBoundingClientRect().y | 1
+		};
+		const houseCharliePosition = {
+			x: houseCharlieElement?.getBoundingClientRect().x | 1,
+			y: houseCharlieElement?.getBoundingClientRect().y | 1
+		};
+		const houseFreddyPosition = {
+			x: houseFreddyElement?.getBoundingClientRect().x | 1,
+			y: houseFreddyElement?.getBoundingClientRect().y | 1
+		};
+
+		const JohnnyPosition = {
+			x: dogJohnnyElement?.getBoundingClientRect().x | 1,
+			y: dogJohnnyElement?.getBoundingClientRect().y | 1
+		};
+		const CharliePosition = {
+			x: dogCharlieElement?.getBoundingClientRect().x | 1,
+			y: dogCharlieElement?.getBoundingClientRect().y | 1
+		};
+		const FreddyPosition = {
+			x: dogFreddyElement?.getBoundingClientRect().x | 1,
+			y: dogFreddyElement?.getBoundingClientRect().y | 1
+		};
+
 		if (
-			houseJohnnyElement.getBoundingClientRect().x == dogJohnnyElement.getBoundingClientRect().x &&
-			houseJohnnyElement.getBoundingClientRect().y == dogJohnnyElement.getBoundingClientRect().y
+			houseJohnnyPosition.x == JohnnyPosition.x &&
+			houseJohnnyPosition.y == JohnnyPosition.y &&
+			houseCharliePosition.x == CharliePosition.x &&
+			houseCharliePosition.y == CharliePosition.y &&
+			houseFreddyPosition.x == FreddyPosition.x &&
+			houseFreddyPosition.y == FreddyPosition.y
 		) {
 			isCorrect = true;
 		} else {
@@ -66,7 +96,7 @@
 			<p class="editor-text">
 				{questions[$pointer].content}
 			</p>
-			<div class="editor">
+			<div class="editor shake">
 				<div class="editor-strokes">
 					{#each strokes as item}
 						<span>
@@ -87,8 +117,10 @@
 						disabled={!isCorrect}
 						on:click={() => {
 							+$pointer++;
-						}}>Следующий</button
+						}}
 					>
+						Следующий
+					</button>
 				</div>
 			</div>
 			<span class="editor-counter">{+$pointer + 1}/{answers.length}</span>
@@ -209,6 +241,7 @@
 		background: #2f2f2f;
 		padding: 1rem;
 	}
+
 	.editor-strokes {
 		display: flex;
 		flex-direction: column;
@@ -308,6 +341,9 @@
 	}
 	.red {
 		color: #ce9178;
+	}
+	.shake {
+		animation: shake infinite 0.3s linear;
 	}
 
 	@keyframes animeDog {

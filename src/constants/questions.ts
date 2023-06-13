@@ -22,6 +22,13 @@ export const questions = [
 	},
 	{
 		content:
+			'Теперь тебе снова нужно использовать свойство justify-content, но на этот раз распредели наших верных помошников так, чтобы между ними было одинаковое расстояние, а также пространство вокруг.',
+		options: [''],
+		correctOptions: ['justify-content:space-around'],
+		dogs: 3
+	},
+	{
+		content:
 			'Теперь используй align-items, чтобы помочь Джонни и Чарли добраться до нижней части. Это свойство CSS выравнивает элементы вертикально и принимает следующие значения: flex-start, flex-end, center, baseline, stretch.',
 		options: [''],
 		correctOptions: ['align-items:flex-end'],
@@ -36,7 +43,7 @@ export const questions = [
 	{
 		content:
 			'Собачкам снова нужно пересечь все пространство и отправиться в нижнуюю часть. В этот раз к будкам, с достаточно большим пространством вокруг них. Используй комбинацию justify-content и align-items.',
-		options: ['justify-content:space-between', 'align-items:flex-end'],
+		options: ['', ''],
 		correctOptions: ['justify-content:space-between', 'align-items:flex-end'],
 		dogs: 3
 	},
@@ -69,8 +76,14 @@ export const questions = [
 		dogs: 2
 	},
 	{
+		content: 'Помоги собачкам вернуться в их будки с помощью flex-direction, justify-content',
+		options: ['', ''],
+		correctOptions: ['flex-direction:column', 'justify-content:space-between'],
+		dogs: 3
+	},
+	{
 		content:
-			'Помоги собачкам вернуться в их будки с помощью flex-direction, justify-content и align-items.',
+			'Помоги собачкам вернуться в их будки с помощью flex-direction, justify-content и align-items',
 		options: ['', '', ''],
 		correctOptions: [
 			'flex-direction:row-reverse',
