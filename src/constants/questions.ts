@@ -2,7 +2,7 @@ export const questions = [
 	{
 		content:
 			'Добро пожаловать в Help Johnny. Игра, в которой тебе нужно помочь псу Джонни найти дорогу в свою уютную будку с помощью технологии FlexBox! Направь нашего верного друга в правую часть, используя свойство justify-content. Это свойство CSS выравнивает элементы горизонтально и принимает следующие значения: flex-start, flex-end, center, space-between, space-around.',
-		options: ['justify-content:flex-end'],
+		options: [''],
 		correctOptions: ['justify-content:flex-end'],
 		dogs: 1
 	},
