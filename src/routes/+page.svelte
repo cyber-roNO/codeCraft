@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../global.css';
 	import dogJohnny from '$lib/images/dog-johnny.png';
 	import dogCharlie from '$lib/images/dog-charlie.png';
@@ -7,95 +7,20 @@
 	import houseCharlie from '$lib/images/house-charlie.png';
 	import houseFreddy from '$lib/images/house-freddy.png';
 	import { afterUpdate } from 'svelte';
+	import { pointer } from '../stores/pointer';
+	import { questions } from '../constants/questions';
 
-	let questions = [
-		{
-			content:
-				'Добро пожаловать в Help Johnny. Игра, в которой тебе нужно помочь псу Джонни найти дорогу в свою уютную будку с помощью технологии FlexBox! Направь нашего верного друга в правую часть, используя свойство justify-content. Это свойство CSS выравнивает элементы горизонтально и принимает следующие значения: flex-start, flex-end, center, space-between, space-around.',
-			options: ['justify-content:flex-end'],
-			correctOptions: ['justify-content:flex-end'],
-			dogs: [dogJohnny]
-		},
-		{
-			content:
-				'Познакомьтесь с Чарли, он будет помогать вам разбираться во FlexBox вместе с Джонни. Теперь тебе снова нужно использовать свойство justify-content, но на этот раз направь наших верных помошников в центр. Помни, что у каждой собаки своя будка.',
-			options: ['justify-content:center'],
-			correctOptions: ['justify-content:center'],
-			dogs: [dogJohnny, dogCharlie]
-		},
-		{
-			content:
-				'Познакомьтесь с Фредди, он будет помогать вам разбираться во FlexBox вместе с Джонни и Чарли. Теперь тебе снова нужно использовать свойство justify-content, но на этот раз распредели наших верных помошников так, чтобы между ними было одинаковое расстояние.',
-			options: ['justify-content:space-between'],
-			correctOptions: ['justify-content:space-between'],
-			dogs: [dogJohnny, dogCharlie, dogFreddy]
-		},
-		{
-			content:
-				'Теперь используй align-items, чтобы помочь Джонни и Чарли добраться до нижней части. Это свойство CSS выравнивает элементы вертикально и принимает следующие значения: flex-start, flex-end, center, baseline, stretch.',
-			options: ['align-items:flex-end'],
-			correctOptions: ['align-items:flex-end'],
-			dogs: [dogJohnny, dogCharlie]
-		},
-		{
-			content: 'Направь Джонни в центр, используя justify-content и align-items вместе.',
-			options: ['justify-content:center', 'align-items:center'],
-			correctOptions: ['justify-content:center', 'align-items:center'],
-			dogs: [dogJohnny]
-		},
-		{
-			content:
-				'Собачкам снова нужно пересечь все пространство и отправиться в нижнуюю часть. В этот раз к будкам, с достаточно большим пространством вокруг них. Используй комбинацию justify-content и align-items.',
-			options: ['justify-content:space-between', 'align-items:flex-end'],
-			correctOptions: ['justify-content:space-between', 'align-items:flex-end'],
-			dogs: [dogJohnny, dogCharlie, dogFreddy]
-		},
-		{
-			content:
-				'Собачкам нужно выстроиться в том же порядке, что и их будки (напомним, что у Джонни - коричневая, у Чарли - белая, у Фредди - желтая), используя flex-direction. Это свойство CSS задает направление, в котором будут расположены элементы в контейнере, и принимает следующие значения: row, row-reverse, column, column-reverse.',
-			options: ['flex-direction:row-reverse'],
-			correctOptions: ['flex-direction:row-reverse'],
-			dogs: [dogJohnny, dogCharlie, dogFreddy]
-		},
-		{
-			content:
-				'Теперь помоги собачкам переместиться в свои будки, которые расположены вертикально, используя flex-direction',
-			options: ['flex-direction:row-reverse'],
-			correctOptions: ['flex-direction:row-reverse'],
-			dogs: [dogJohnny, dogCharlie, dogFreddy]
-		}
-	];
-
-	let strokes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+	const strokes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 	let isCorrect = false;
-	/**
-	 * @type {HTMLSpanElement}
-	 */
-	let houseJohnnyElement;
-	/**
-	 * @type {HTMLSpanElement}
-	 */
-	let dogJohnnyElement;
-	/**
-	 * @type {HTMLSpanElement}
-	 */
-	let houseCharlieElement;
-	/**
-	 * @type {HTMLSpanElement}
-	 */
-	let dogCharlieElement;
-	/**
-	 * @type {HTMLSpanElement}
-	 */
-	let houseFreddyElement;
-	/**
-	 * @type {HTMLSpanElement}
-	 */
-	let dogFreddyElement;
+
+	let houseJohnnyElement: HTMLSpanElement;
+	let dogJohnnyElement: HTMLSpanElement;
+	let houseCharlieElement: HTMLSpanElement;
+	let dogCharlieElement: HTMLSpanElement;
+	let houseFreddyElement: HTMLSpanElement;
+	let dogFreddyElement: HTMLSpanElement;
 
 	let answers = new Array(questions.length).fill(null);
-
-	let questionPointer = 0;
 
 	afterUpdate(() => {
 		if (
@@ -113,16 +38,33 @@
 	<title>Help Johnny</title>
 	<meta name="description" content="codeCraft app" />
 	<link
-		href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Source+Code+Pro&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Source+Code+Pro&display=swap"
 		rel="stylesheet"
 	/>
 </svelte:head>
 <main>
-	{#if !(questionPointer > answers.length - 1)}
+	{#if !($pointer > answers.length - 1)}
 		<div class="editor-wrapper">
-			<h1 class="editor-logo">HELP JOHNNY</h1>
+			<div class="editor-logo-group">
+				<h1 class="editor-logo">HELP JOHNNY</h1>
+				<div class="editor-logo-arrows">
+					<button
+						disabled={$pointer == 0}
+						on:click={() => {
+							+$pointer--;
+						}}>{'<'}</button
+					>
+					<p>УРОВЕНЬ</p>
+					<button
+						on:click={() => {
+							+$pointer++;
+						}}>{'>'}</button
+					>
+				</div>
+			</div>
+
 			<p class="editor-text">
-				{questions[questionPointer].content}
+				{questions[$pointer].content}
 			</p>
 			<div class="editor">
 				<div class="editor-strokes">
@@ -135,7 +77,7 @@
 				<div class="editor-area">
 					<p>#content <span class="bracket">{'{'}</span></p>
 					<p class="margin-l red"><span class="blue">display:</span> flex;</p>
-					{#each questions[questionPointer].options as option}
+					{#each questions[$pointer].options as option}
 						<input class="editor-input margin-l" type="text" bind:value={option} />
 					{/each}
 
@@ -144,42 +86,68 @@
 						class="editor-button"
 						disabled={!isCorrect}
 						on:click={() => {
-							questionPointer++;
+							+$pointer++;
 						}}>Следующий</button
 					>
 				</div>
 			</div>
+			<span class="editor-counter">{+$pointer + 1}/{answers.length}</span>
 		</div>
 	{:else}
-		<div class="editor-wrapper">end</div>
+		<div class="editor-wrapper">
+			<div class="editor-logo-group">
+				<h1 class="editor-logo">HELP JOHNNY</h1>
+			</div>
+			<p class="editor-text">
+				Поздравляем! Вы успешно завершили игру по обучению технологии Flexbox! Теперь у вас есть
+				важные знания о том, как использовать Flexbox для создания адаптивного и удобного интерфейса
+				веб-страниц.
+			</p>
+			<p class="editor-text">
+				Мы надеемся, что эта игра помогла вам углубить свои знания о Flexbox и вдохновила на
+				дальнейшее исследование этой технологии. Помните, что использование Flexbox - это всего лишь
+				один из способов создания интерфейсов на веб-страницах, но он может быть очень мощным и
+				гибким инструментом для создания лучшего пользовательского опыта.
+			</p>
+			<p class="editor-text">
+				Спасибо, что играли в нашу игру обучения Flexbox! Надеемся, что вам понравилось и до новых
+				встреч в наших новых играх!
+			</p>
+			<button
+				class="editor-button"
+				on:click={() => {
+					$pointer = 0;
+				}}>Играть снова</button
+			>
+		</div>
 	{/if}
 
 	<div class="view">
-		<div class="background" style={questions[questionPointer].correctOptions?.join(';')}>
+		<div class="background" style={questions[$pointer]?.correctOptions?.join(';')}>
 			<span bind:this={houseJohnnyElement} class="img-wrapper doggy-house"
 				><img src={houseJohnny} alt="house" /></span
 			>
-			{#if questions[questionPointer].dogs?.length > 1}
+			{#if questions[$pointer]?.dogs > 1}
 				<span bind:this={houseCharlieElement} class="img-wrapper doggy-house"
 					><img src={houseCharlie} alt="house" /></span
 				>
 			{/if}
-			{#if questions[questionPointer].dogs?.length > 2}
+			{#if questions[$pointer]?.dogs > 2}
 				<span bind:this={houseFreddyElement} class="img-wrapper doggy-house"
 					><img src={houseFreddy} alt="house" /></span
 				>
 			{/if}
 		</div>
-		<div class="grass" style={questions[questionPointer].options.join(';')} id="content">
+		<div class="grass" style={questions[$pointer]?.options.join(';')} id="content">
 			<span bind:this={dogJohnnyElement} class="img-wrapper doggy"
 				><img src={dogJohnny} alt="doggy" /></span
 			>
-			{#if questions[questionPointer].dogs?.length > 1}
+			{#if questions[$pointer]?.dogs > 1}
 				<span bind:this={dogCharlieElement} class="img-wrapper doggy"
 					><img src={dogCharlie} alt="doggy" /></span
 				>
 			{/if}
-			{#if questions[questionPointer].dogs?.length > 2}
+			{#if questions[$pointer]?.dogs > 2}
 				<span bind:this={dogFreddyElement} class="img-wrapper doggy"
 					><img src={dogFreddy} alt="doggy" /></span
 				>
@@ -192,8 +160,11 @@
 	main {
 		display: flex;
 		align-items: center;
-		font-family: 'Montserrat', sans-serif;
-		font-size: 1.6rem;
+		font-family: 'Press Start 2P', cursive;
+		font-size: 1.4rem;
+	}
+	button:disabled {
+		opacity: 0.5;
 	}
 	.editor-wrapper {
 		height: 100vh;
@@ -202,13 +173,35 @@
 		padding: 2rem;
 		display: flex;
 		flex-direction: column;
+		position: relative;
 	}
-	.editor-logo {
+
+	.editor-logo-group {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		margin-bottom: 3rem;
 	}
+	.editor-logo {
+		font-size: 2.4rem;
+	}
+	.editor-logo-arrows {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.editor-logo-arrows button {
+		border: none;
+		outline: none;
+		background: none;
+		font-family: 'Press Start 2P', cursive;
+		color: white;
+		cursor: pointer;
+	}
+
 	.editor-text {
 		margin-bottom: 2rem;
-		line-height: 150%;
+		line-height: 140%;
 	}
 	.editor {
 		display: flex;
@@ -257,8 +250,13 @@
 		cursor: pointer;
 		font-family: 'Source Code Pro', monospace;
 	}
-	.editor-button:disabled {
-		opacity: 0.5;
+
+	.editor-counter {
+		font-size: 10rem;
+		position: absolute;
+		right: 1rem;
+		bottom: 1rem;
+		opacity: 0.2;
 	}
 
 	.view {
@@ -295,8 +293,10 @@
 	}
 	.doggy img {
 		transform: scale(0.75);
-		margin-top: 25px;
+		margin-top: 2.5rem;
+		animation: animeDog infinite 2s ease;
 	}
+
 	.margin-l {
 		margin-left: 3rem;
 	}
@@ -308,5 +308,75 @@
 	}
 	.red {
 		color: #ce9178;
+	}
+
+	@keyframes animeDog {
+		0% {
+			transform: scale(0.75) translateY(0);
+		}
+		50% {
+			transform: scale(0.75) translateY(0.5rem);
+		}
+		100% {
+			transform: scale(0.75) translateY(0);
+		}
+	}
+	@media (max-width: 1500px) {
+		.img-wrapper {
+			width: 18rem;
+			height: 18rem;
+		}
+		.doggy img {
+			margin-top: 1.5rem;
+		}
+		.background,
+		.grass {
+			padding: 2rem;
+		}
+		.editor-counter {
+			font-size: 7rem;
+		}
+	}
+	@media (max-width: 1300px) {
+		.img-wrapper {
+			width: 15rem;
+			height: 15rem;
+		}
+		.doggy img {
+			margin-top: 1rem;
+		}
+		.background,
+		.grass {
+			padding: 1.5rem;
+		}
+		.editor-counter {
+			font-size: 5rem;
+		}
+	}
+	@media (max-width: 1000px) {
+		main {
+			flex-direction: column;
+			font-size: 1rem;
+		}
+		.editor-counter {
+			display: none;
+		}
+		.editor-wrapper {
+			width: 100%;
+		}
+		.editor-logo {
+			font-size: 1.8rem;
+		}
+		.view {
+			width: 100%;
+		}
+		.editor-button {
+			font-size: 1.2rem;
+			padding: 0.5rem 1rem;
+		}
+		.editor,
+		.editor-input {
+			font-size: 1.1rem;
+		}
 	}
 </style>
