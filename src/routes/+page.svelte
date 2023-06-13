@@ -66,7 +66,26 @@
 
 <svelte:head>
 	<title>Help Johnny</title>
-	<meta name="description" content="codeCraft app" />
+	<meta
+		name="description"
+		content="Help Johnny - это игра, в которой тебе нужно помочь псу Джонни найти дорогу в свою уютную будку с помощью технологии FlexBox!"
+	/>
+	<meta name="keywords" content="flexbox, game, css" />
+	<meta name="author" content="Roman Novikov" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="HELP JOHNNY" />
+	<meta property="og:title" content="Help Johnny" />
+	<meta
+		property="og:description"
+		content="Help Johnny - это игра, в которой тебе нужно помочь псу Джонни найти дорогу в свою уютную будку с помощью технологии FlexBox!"
+	/>
+	<meta property="og:locale" content="ru_RU" />
+	<meta
+		property="og:image"
+		content="https://code-craft-five.vercel.app/_app/immutable/assets/dog-johnny.28c5c7ba.png"
+	/>
+	<meta property="og:image:width" content="968" />
+	<meta property="og:image:height" content="504" />
 	<link
 		href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Source+Code+Pro&display=swap"
 		rel="stylesheet"
