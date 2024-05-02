@@ -2,6 +2,7 @@
 	import '../global.css';
 	import Johnny from '$lib/images/dogs/dog-johnny.png';
 	import Puzzle from '$lib/images/puzzle/full.png';
+	import Pumpkin from '$lib/images/ground/pumpkin-cell.png';
 </script>
 
 <svelte:head>
@@ -32,9 +33,9 @@
 	/>
 </svelte:head>
 <main>
-	<div class="editor-wrapper">
-		<div class="editor-logo-group">
-			<h1 class="editor-logo">CODECRAFT</h1>
+	<div class="wrapper">
+		<div class="logo-group">
+			<h1 class="logo">CODECRAFT</h1>
 		</div>
 		<div class="cards-wrapper">
 			<a class="card" style="background: #50c878" href="/help-johnny">
@@ -51,6 +52,13 @@
 				</figure>
 				<p>Transform Puzzle</p>
 			</a>
+			<a class="card" style="background: #664029" href="/pumpkin-field">
+				<p>Pumpkin Field</p>
+				<figure>
+					<img src={Pumpkin} alt="" />
+				</figure>
+				<p>Pumpkin Field</p>
+			</a>
 		</div>
 	</div>
 </main>
@@ -63,7 +71,7 @@
 		font-size: 1.4rem;
 		background: #fdf4e3;
 	}
-	.editor-wrapper {
+	.wrapper {
 		height: 100vh;
 		width: 100%;
 		padding: 2rem;
@@ -73,20 +81,20 @@
 		position: relative;
 	}
 
-	.editor-logo-group {
+	.logo-group {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 5rem;
 	}
-	.editor-logo {
+	.logo {
 		font-size: 2.4rem;
 	}
 
 	.cards-wrapper {
 		display: grid;
 		gap: 2rem;
-		grid-template-columns: repeat(2, 28rem);
+		grid-template-columns: repeat(3, 28rem);
 	}
 	.card {
 		padding: 1rem;
