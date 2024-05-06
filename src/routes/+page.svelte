@@ -52,7 +52,7 @@
 				</figure>
 				<p>Transform Puzzle</p>
 			</a>
-			<a class="card" style="background: #664029" href="/pumpkin-field">
+			<a class="card" style="background: #2E292D" href="/pumpkin-field">
 				<p>Pumpkin Field</p>
 				<figure>
 					<img src={Pumpkin} alt="" />

@@ -159,7 +159,7 @@
 		align-items: center;
 		font-family: 'Press Start 2P', cursive;
 		font-size: 1.4rem;
-		background: #f38a35;
+		background: #2e292d;
 	}
 	button:disabled {
 		opacity: 0.5;
@@ -182,6 +182,7 @@
 	}
 	.editor-logo {
 		font-size: 2.4rem;
+		color: #fc9337;
 	}
 	.editor-logo-arrows {
 		display: flex;
@@ -261,19 +262,21 @@
 	.view-wrapper {
 		padding: 2rem;
 		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 	.view {
 		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-
 		width: 50vw;
 		height: 50vw;
 		min-width: 300px;
 		min-height: 300px;
-		max-width: calc(100vh - 2em);
-		max-height: calc(100vh - 2em);
+		max-width: calc(90vh - 2em);
+		max-height: calc(90vh - 2em);
 		overflow: hidden;
 		border: 15px solid #44281a;
 		border-radius: 10px;
@@ -334,6 +337,12 @@
 		.editor-counter {
 			font-size: 7rem;
 		}
+		.editor-button {
+			position: relative;
+			width: 15rem;
+			margin-top: 5rem;
+			align-self: flex-end;
+		}
 	}
 	@media (max-width: 1300px) {
 		.editor-counter {
@@ -350,17 +359,18 @@
 		}
 		.editor-wrapper {
 			width: 100%;
+			height: 100%;
 		}
 		.editor-logo {
 			font-size: 1.8rem;
 		}
-		.view {
-			width: 100%;
-			gap: 1rem;
+		.view-wrapper {
+			height: 100%;
 		}
 		.editor-button {
 			font-size: 1.2rem;
 			padding: 0.5rem 1rem;
+			width: 10rem;
 		}
 		.editor,
 		.editor-input {
