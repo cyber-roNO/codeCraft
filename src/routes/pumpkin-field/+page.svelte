@@ -114,11 +114,10 @@
 							{item.split(':')[1]};
 						</p>
 					{/each}
-					<input
-						class="editor-input margin-l"
-						type="text"
-						bind:value={questions[$pointerGridGround].option}
-					/>
+
+					{#each questions[$pointerGridGround].options as option}
+						<input class="editor-input margin-l" type="text" bind:value={option} />
+					{/each}
 					<p class="bracket">{'}'}</p>
 					<button
 						class="editor-button"
@@ -137,7 +136,7 @@
 	{:else}
 		<div class="editor-wrapper">
 			<div class="editor-logo-group">
-				<h1 class="editor-logo">Pumpkin Field</h1>
+				<h1 class="editor-logo">PUMPKIN FIELD</h1>
 			</div>
 			<p class="editor-text">
 				{finalText}
@@ -170,7 +169,7 @@
 					style={`background-image:url(${aquaCell});` +
 						questions[$pointerGridGround]?.optionAnswers?.join(';') +
 						';' +
-						questions[$pointerGridGround]?.option}
+						questions[$pointerGridGround]?.options?.join(';')}
 				/>
 			</div>
 			<div class="background">
@@ -196,6 +195,7 @@
 		align-items: center;
 		font-family: 'Press Start 2P', cursive;
 		font-size: 1.4rem;
+		background: #2e292d;
 	}
 	button:disabled {
 		opacity: 0.5;
