@@ -10,12 +10,43 @@
 	import p8 from '$lib/images/puzzle/8.png';
 	import p9 from '$lib/images/puzzle/9.png';
 
+	import { afterUpdate } from 'svelte';
 	import { questions, finalText } from '../../constants/puzzle/questions';
 	import { pointerPuzzle } from '../../stores/pointer';
 
 	const strokes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 	const puzzle = [p1, p2, p3, p4, p5, p6, p7, p8, p9];
+	let isCorrect = false;
+	let puzzleItem: HTMLImageElement;
+	let wholeItem: HTMLSpanElement;
+	let _puzzles: HTMLSpanElement[] = [];
+
 	let answers = new Array(questions.length).fill(null);
+
+	afterUpdate(() => {
+		wholeItem = _puzzles[questions[$pointerPuzzle]?.itemId];
+		setTimeout(() => {
+			const puzzleItemData = {
+				x: Math.round(puzzleItem?.getBoundingClientRect().x | 1),
+				y: Math.round(puzzleItem?.getBoundingClientRect().y | 1),
+				w: Math.round(puzzleItem?.getBoundingClientRect().width | 1),
+				h: Math.round(puzzleItem?.getBoundingClientRect().height | 1)
+			};
+
+			const wholeItemData = {
+				x: Math.round(wholeItem?.getBoundingClientRect().x | 1),
+				y: Math.round(wholeItem?.getBoundingClientRect().y | 1),
+				w: Math.round(wholeItem?.getBoundingClientRect().width | 1),
+				h: Math.round(wholeItem?.getBoundingClientRect().height | 1)
+			};
+
+			if (JSON.stringify(puzzleItemData) === JSON.stringify(wholeItemData)) {
+				isCorrect = true;
+			} else {
+				isCorrect = false;
+			}
+		}, 300);
+	});
 </script>
 
 <svelte:head>
@@ -58,6 +89,7 @@
 						}}>{'<'}</button
 					>
 					<p>УРОВЕНЬ</p>
+					<span class="editor-counter-mobile">{+$pointerPuzzle + 1}/{answers.length}</span>
 					<button
 						on:click={() => {
 							+$pointerPuzzle++;
@@ -78,7 +110,7 @@
 				<div class="editor-area">
 					<p>#item <span class="bracket">{'{'}</span></p>
 					<p class="margin-l red">
-						<span class="blue">transition:</span> transform 1s ease-in-out;
+						<span class="blue">transition:</span> transform 0.2s ease;
 					</p>
 					<input
 						class="editor-input margin-l"
@@ -88,6 +120,7 @@
 					<p class="bracket">{'}'}</p>
 					<button
 						class="editor-button"
+						disabled={!isCorrect}
 						on:click={() => {
 							+$pointerPuzzle++;
 						}}
@@ -106,12 +139,16 @@
 			<p class="editor-text">
 				{finalText}
 			</p>
-			<button
-				class="editor-button"
-				on:click={() => {
-					$pointerPuzzle = 0;
-				}}>Играть снова</button
-			>
+
+			<div class="buttons">
+				<a href="/" class="link"> На главную </a>
+				<button
+					class="editor-button button-end"
+					on:click={() => {
+						$pointerPuzzle = 0;
+					}}>Играть снова</button
+				>
+			</div>
 		</div>
 	{/if}
 	<div class="view" style={questions[$pointerPuzzle]?.viewStyle.join(';')}>
@@ -119,6 +156,7 @@
 			{#if puzzle[questions[$pointerPuzzle]?.itemId]}
 				<span class="img-wrapper puzzle-option" style={questions[$pointerPuzzle]?.imageStyle}>
 					<img
+						bind:this={puzzleItem}
 						style={questions[$pointerPuzzle].option}
 						src={puzzle[questions[$pointerPuzzle].itemId]}
 						alt=""
@@ -133,6 +171,7 @@
 				<span
 					class="img-wrapper puzzle-item"
 					style={idx === questions[$pointerPuzzle]?.itemId ? 'opacity: 0.2' : ''}
+					bind:this={_puzzles[idx]}
 				>
 					<img src={item} alt="" />
 				</span>
@@ -142,6 +181,9 @@
 </main>
 
 <style>
+	:global(body) {
+		background: #fdf4e3;
+	}
 	main {
 		display: flex;
 		align-items: center;
@@ -170,6 +212,7 @@
 	}
 	.editor-logo {
 		font-size: 2.4rem;
+		line-height: 1.3;
 	}
 	.editor-logo-arrows {
 		display: flex;
@@ -195,6 +238,8 @@
 		font-family: 'Source Code Pro', monospace;
 		background: #2f2f2f;
 		padding: 1rem;
+		position: relative;
+		z-index: 9;
 	}
 
 	.editor-strokes {
@@ -226,9 +271,8 @@
 		color: white;
 	}
 	.editor-button {
-		position: absolute;
-		right: 1.5rem;
-		bottom: 1.5rem;
+		width: 15rem;
+		align-self: flex-end;
 		font-size: 1.6rem;
 		padding: 1rem 1.5rem;
 		border-radius: 0.5rem;
@@ -238,13 +282,16 @@
 		cursor: pointer;
 		font-family: 'Source Code Pro', monospace;
 	}
-
+	.button-end {
+		flex-basis: 50%;
+	}
 	.editor-counter {
 		font-size: 10rem;
 		position: absolute;
 		right: 1rem;
 		bottom: 1rem;
 		opacity: 0.2;
+		z-index: 0;
 	}
 
 	.view {
@@ -277,7 +324,7 @@
 	.img-wrapper img {
 		width: 100%;
 		height: 100%;
-		transition: transform 1s ease-in-out;
+		transition: transform 0.2s ease;
 	}
 
 	.margin-l {
@@ -292,12 +339,37 @@
 	.red {
 		color: #ce9178;
 	}
+	.editor-counter-mobile {
+		display: none;
+	}
+	.buttons {
+		display: flex;
+		gap: 2rem;
+	}
+	.link {
+		color: white;
+		text-decoration: none;
+		cursor: pointer;
+		width: 15rem;
+		font-size: 1.6rem;
+		padding: 1rem 1.5rem;
+		font-family: 'Source Code Pro', monospace;
+		border-radius: 0.5rem;
+		background: #569cd6;
+		align-self: center;
+		text-align: center;
+		margin-top: 2rem;
+		flex-basis: 50%;
+	}
 	@media (max-width: 1500px) {
 		.editor-counter {
 			font-size: 7rem;
 		}
 	}
 	@media (max-width: 1300px) {
+		.editor-counter {
+			font-size: 5rem;
+		}
 		.img-wrapper {
 			width: 8rem;
 			height: 8rem;
@@ -305,8 +377,8 @@
 		.background {
 			grid-template-columns: repeat(3, 8rem);
 		}
-		.editor-counter {
-			font-size: 5rem;
+		.view {
+			gap: 1.6rem;
 		}
 	}
 	@media (max-width: 1000px) {
@@ -319,13 +391,14 @@
 		}
 		.editor-wrapper {
 			width: 100%;
+			height: 100%;
 		}
 		.editor-logo {
 			font-size: 1.8rem;
 		}
 		.view {
 			width: 100%;
-			gap: 1rem;
+			height: 100%;
 		}
 		.editor-button {
 			font-size: 1.2rem;
@@ -334,6 +407,19 @@
 		.editor,
 		.editor-input {
 			font-size: 1.1rem;
+		}
+		.editor-counter-mobile {
+			display: block;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.margin-l {
+			margin-left: 0.7rem;
+		}
+		.editor-area {
+			margin-left: 0;
+			padding: 1rem 0;
 		}
 	}
 </style>

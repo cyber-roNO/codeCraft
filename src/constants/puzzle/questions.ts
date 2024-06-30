@@ -29,7 +29,7 @@ export const questions = [
 		viewStyle: [],
 		itemId: 1,
 		option: '',
-		imageStyle: 'transform: translateY(120px) scale(0.5)'
+		imageStyle: 'transform: translateY(120%) scale(0.5)'
 	},
 	{
 		content:
@@ -37,7 +37,7 @@ export const questions = [
 		viewStyle: [],
 		itemId: 1,
 		option: '',
-		imageStyle: 'transform: translateY(120px) scale(1,2)'
+		imageStyle: 'transform: translateY(120%) scale(1,2)'
 	},
 	{
 		content:
@@ -45,15 +45,15 @@ export const questions = [
 		viewStyle: [],
 		itemId: 1,
 		option: '',
-		imageStyle: 'transform: translateY(120px) scale(2,1)'
+		imageStyle: 'transform: translateY(120%) scale(2,1)'
 	},
 	{
 		content:
 			'Отлично! Ты разобрался c тем как мы можем менять размер, с помощью свойства scale. Теперь у нас другая проблема, кто-то развернул наш кусочек пазла на 45 градусов. Используй свойство rotate(x). Только не забудь, что значение мы указываем в градусах(deg).',
 		viewStyle: [],
-		itemId: 4,
+		itemId: 1,
 		option: '',
-		imageStyle: 'transform: translateY(223px) rotate(-45deg)'
+		imageStyle: 'transform: translateY(120%) rotate(-45deg)'
 	},
 	{
 		content:
@@ -61,7 +61,7 @@ export const questions = [
 		viewStyle: [],
 		itemId: 4,
 		option: '',
-		imageStyle: 'transform: translateY(223px) rotate(-0.5turn)'
+		imageStyle: 'transform: translateY(223%) rotate(-0.5turn)'
 	},
 	{
 		content:
@@ -69,7 +69,7 @@ export const questions = [
 		viewStyle: [],
 		itemId: 4,
 		option: '',
-		imageStyle: 'transform: translateY(223px) skew(-30deg)'
+		imageStyle: 'transform: translateY(223%) skew(-30deg)'
 	},
 	{
 		content:
@@ -77,11 +77,11 @@ export const questions = [
 		viewStyle: [],
 		itemId: 4,
 		option: '',
-		imageStyle: 'transform: translateY(223px) skew(0, -30deg)'
+		imageStyle: 'transform: translateY(223%) skew(0, -30deg)'
 	},
 	{
 		content:
-			'Отлично! Ты изучил все значения свойства transform и теперь ты можешь использовать несколько свойств одновременно. \nНо помни, что использовать свойства можно в определенном порядке. Например здесь нужно сначала использовать rotate, а потом translate.',
+			'Отлично! Ты изучил все значения свойства transform и теперь ты можешь использовать несколько свойств одновременно. \nНо помни, что нужно использовать свойства в определенном порядке. Например здесь сначала используй rotate, а потом translate.',
 		viewStyle: [],
 		itemId: 6,
 		option: '',

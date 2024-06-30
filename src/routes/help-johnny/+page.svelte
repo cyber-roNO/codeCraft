@@ -104,6 +104,7 @@
 						}}>{'<'}</button
 					>
 					<p>УРОВЕНЬ</p>
+					<span class="editor-counter-mobile">{+$pointer + 1}/{answers.length}</span>
 					<button
 						on:click={() => {
 							+$pointer++;
@@ -164,12 +165,15 @@
 				Спасибо, что играли в нашу игру обучения Flexbox! Надеемся, что вам понравилось и до новых
 				встреч в наших новых играх!
 			</p>
-			<button
-				class="editor-button"
-				on:click={() => {
-					$pointer = 0;
-				}}>Играть снова</button
-			>
+			<div class="buttons">
+				<a href="/" class="link"> На главную </a>
+				<button
+					class="editor-button button-end"
+					on:click={() => {
+						$pointer = 0;
+					}}>Играть снова</button
+				>
+			</div>
 		</div>
 	{/if}
 
@@ -208,6 +212,9 @@
 </main>
 
 <style>
+	:global(body) {
+		background: #50c878;
+	}
 	main {
 		display: flex;
 		align-items: center;
@@ -236,6 +243,7 @@
 	}
 	.editor-logo {
 		font-size: 2.4rem;
+		line-height: 1.3;
 	}
 	.editor-logo-arrows {
 		display: flex;
@@ -260,6 +268,8 @@
 		font-family: 'Source Code Pro', monospace;
 		background: #2f2f2f;
 		padding: 1rem;
+		position: relative;
+		z-index: 9;
 	}
 
 	.editor-strokes {
@@ -291,9 +301,8 @@
 		color: white;
 	}
 	.editor-button {
-		position: absolute;
-		right: 1.5rem;
-		bottom: 1.5rem;
+		width: 15rem;
+		align-self: flex-end;
 		font-size: 1.6rem;
 		padding: 1rem 1.5rem;
 		border-radius: 0.5rem;
@@ -302,6 +311,9 @@
 		background: #50c878;
 		cursor: pointer;
 		font-family: 'Source Code Pro', monospace;
+	}
+	.button-end {
+		flex-basis: 50%;
 	}
 
 	.editor-counter {
@@ -349,7 +361,6 @@
 		margin-top: 2.5rem;
 		animation: animeDog infinite 2s ease;
 	}
-
 	.margin-l {
 		margin-left: 3rem;
 	}
@@ -376,6 +387,28 @@
 		100% {
 			transform: scale(0.75) translateY(0);
 		}
+	}
+	.editor-counter-mobile {
+		display: none;
+	}
+	.buttons {
+		display: flex;
+		gap: 2rem;
+	}
+	.link {
+		color: white;
+		text-decoration: none;
+		cursor: pointer;
+		width: 15rem;
+		font-size: 1.6rem;
+		padding: 1rem 1.5rem;
+		font-family: 'Source Code Pro', monospace;
+		border-radius: 0.5rem;
+		background: #569cd6;
+		align-self: center;
+		text-align: center;
+		margin-top: 2rem;
+		flex-basis: 50%;
 	}
 	@media (max-width: 1500px) {
 		.img-wrapper {
@@ -419,12 +452,18 @@
 		}
 		.editor-wrapper {
 			width: 100%;
+			height: 100%;
 		}
 		.editor-logo {
 			font-size: 1.8rem;
 		}
+		.editor-logo-group {
+			margin-bottom: 2rem;
+		}
 		.view {
 			width: 100%;
+			height: 100%;
+			min-height: 40rem;
 		}
 		.editor-button {
 			font-size: 1.2rem;
@@ -433,6 +472,26 @@
 		.editor,
 		.editor-input {
 			font-size: 1.1rem;
+		}
+		.editor-counter-mobile {
+			display: block;
+		}
+		.img-wrapper {
+			width: 12rem;
+			height: 12rem;
+		}
+	}
+	@media (max-width: 480px) {
+		.margin-l {
+			margin-left: 0.7rem;
+		}
+		.editor-area {
+			margin-left: 0;
+			padding: 1rem 0;
+		}
+		.img-wrapper {
+			width: 9rem;
+			height: 9rem;
 		}
 	}
 </style>

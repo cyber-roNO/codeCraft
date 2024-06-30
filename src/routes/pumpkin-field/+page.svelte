@@ -3,12 +3,38 @@
 
 	import { questions, finalText } from '../../constants/ground/questions';
 	import { pointerGridGround } from '../../stores/pointer';
+	import { afterUpdate } from 'svelte';
+
 	import groundCell from '$lib/images/ground/ground-cell.png';
 	import pumpkinCell from '$lib/images/ground/pumpkin-cell.png';
 	import aquaCell from '$lib/images/ground/aqua-cell.png';
-
+	let isCorrect = false;
 	const strokes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 	let answers = new Array(questions.length).fill(null);
+	let aquaItem: HTMLSpanElement;
+	let pumpkinItem: HTMLSpanElement;
+
+	afterUpdate(() => {
+		const aquaItemData = {
+			x: Math.round(aquaItem?.getBoundingClientRect().x | 1),
+			y: Math.round(aquaItem?.getBoundingClientRect().y | 1),
+			w: aquaItem?.getBoundingClientRect().width,
+			h: aquaItem?.getBoundingClientRect().height
+		};
+
+		const pumpkinItemData = {
+			x: Math.round(pumpkinItem?.getBoundingClientRect().x | 1),
+			y: Math.round(pumpkinItem?.getBoundingClientRect().y | 1),
+			w: pumpkinItem?.getBoundingClientRect().width,
+			h: pumpkinItem?.getBoundingClientRect().height
+		};
+
+		if (JSON.stringify(aquaItemData) === JSON.stringify(pumpkinItemData)) {
+			isCorrect = true;
+		} else {
+			isCorrect = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -51,6 +77,7 @@
 						}}>{'<'}</button
 					>
 					<p>УРОВЕНЬ</p>
+					<span class="editor-counter-mobile">{+$pointerGridGround + 1}/{answers.length}</span>
 					<button
 						on:click={() => {
 							+$pointerGridGround++;
@@ -74,10 +101,10 @@
 						<span class="blue">display:</span> grid;
 					</p>
 					<p class="margin-l red">
-						<span class="blue">grid-template-rows:</span> 20% 20% 20% 20% 20%;
+						<span class="blue">grid-template-rows:</span>{'\n'}repeat(5, 20%);
 					</p>
 					<p class="margin-l red">
-						<span class="blue">grid-template-columns:</span> 20% 20% 20% 20% 20%;
+						<span class="blue">grid-template-columns:</span>{'\n'}repeat(5, 20%);
 					</p>
 					<p class="bracket">{'}'}</p>
 					<p>#aqua <span class="bracket">{'{'}</span></p>
@@ -95,6 +122,7 @@
 					<p class="bracket">{'}'}</p>
 					<button
 						class="editor-button"
+						disabled={!isCorrect}
 						on:click={() => {
 							+$pointerGridGround++;
 						}}
@@ -103,6 +131,7 @@
 					</button>
 				</div>
 			</div>
+
 			<span class="editor-counter">{+$pointerGridGround + 1}/{answers.length}</span>
 		</div>
 	{:else}
@@ -113,18 +142,22 @@
 			<p class="editor-text">
 				{finalText}
 			</p>
-			<button
-				class="editor-button"
-				on:click={() => {
-					$pointerGridGround = 0;
-				}}>Играть снова</button
-			>
+			<div class="buttons">
+				<a href="/" class="link"> На главную </a>
+				<button
+					class="editor-button button-end"
+					on:click={() => {
+						$pointerGridGround = 0;
+					}}>Играть снова</button
+				>
+			</div>
 		</div>
 	{/if}
 	<div class="view-wrapper">
 		<div class="view">
 			<div class="plants" id="content">
 				<span
+					bind:this={pumpkinItem}
 					class="bg-img-wrapper ground-option"
 					style={`background-image:url(${pumpkinCell});` +
 						questions[$pointerGridGround]?.rightAnswer}
@@ -132,6 +165,7 @@
 			</div>
 			<div class="aqua" id="content">
 				<span
+					bind:this={aquaItem}
 					class="bg-img-wrapper aqua-option"
 					style={`background-image:url(${aquaCell});` +
 						questions[$pointerGridGround]?.optionAnswers?.join(';') +
@@ -154,12 +188,14 @@
 </main>
 
 <style>
+	:global(body) {
+		background: #2e292d;
+	}
 	main {
 		display: flex;
 		align-items: center;
 		font-family: 'Press Start 2P', cursive;
 		font-size: 1.4rem;
-		background: #2e292d;
 	}
 	button:disabled {
 		opacity: 0.5;
@@ -182,6 +218,7 @@
 	}
 	.editor-logo {
 		font-size: 2.4rem;
+		line-height: 1.3;
 		color: #fc9337;
 	}
 	.editor-logo-arrows {
@@ -208,6 +245,8 @@
 		font-family: 'Source Code Pro', monospace;
 		background: #2f2f2f;
 		padding: 1rem;
+		position: relative;
+		z-index: 9;
 	}
 
 	.editor-strokes {
@@ -228,6 +267,7 @@
 		position: relative;
 		margin-left: 2rem;
 	}
+
 	.editor-input {
 		border: none;
 		outline: none;
@@ -239,9 +279,8 @@
 		color: white;
 	}
 	.editor-button {
-		position: absolute;
-		right: 1.5rem;
-		bottom: 1.5rem;
+		width: 15rem;
+		align-self: flex-end;
 		font-size: 1.6rem;
 		padding: 1rem 1.5rem;
 		border-radius: 0.5rem;
@@ -251,7 +290,9 @@
 		cursor: pointer;
 		font-family: 'Source Code Pro', monospace;
 	}
-
+	.button-end {
+		flex-basis: 50%;
+	}
 	.editor-counter {
 		font-size: 10rem;
 		position: absolute;
@@ -289,8 +330,8 @@
 		top: 0;
 		left: 0;
 		display: grid;
-		grid-template-rows: 20% 20% 20% 20% 20%;
-		grid-template-columns: 20% 20% 20% 20% 20%;
+		grid-template-rows: repeat(5, 20%);
+		grid-template-columns: repeat(5, 20%);
 		width: 100%;
 		height: 100%;
 	}
@@ -332,6 +373,28 @@
 	}
 	.red {
 		color: #ce9178;
+	}
+	.editor-counter-mobile {
+		display: none;
+	}
+	.buttons {
+		display: flex;
+		gap: 2rem;
+	}
+	.link {
+		color: white;
+		text-decoration: none;
+		cursor: pointer;
+		width: 15rem;
+		font-size: 1.6rem;
+		padding: 1rem 1.5rem;
+		font-family: 'Source Code Pro', monospace;
+		border-radius: 0.5rem;
+		background: #569cd6;
+		align-self: center;
+		text-align: center;
+		margin-top: 2rem;
+		flex-basis: 50%;
 	}
 	@media (max-width: 1500px) {
 		.editor-counter {
@@ -375,6 +438,19 @@
 		.editor,
 		.editor-input {
 			font-size: 1.1rem;
+		}
+		.editor-counter-mobile {
+			display: block;
+		}
+	}
+	@media (max-width: 480px) {
+		.margin-l {
+			margin-left: 0.7rem;
+		}
+		.editor-area {
+			margin-left: 0;
+			padding: 1rem 0;
+			white-space: pre-line;
 		}
 	}
 </style>
