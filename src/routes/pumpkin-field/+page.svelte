@@ -187,9 +187,6 @@
 </main>
 
 <style>
-	:global(body) {
-		background: #2e292d;
-	}
 	main {
 		display: flex;
 		align-items: center;
@@ -393,7 +390,6 @@
 		background: #569cd6;
 		align-self: center;
 		text-align: center;
-		margin-top: 2rem;
 		flex-basis: 50%;
 	}
 	@media (max-width: 1500px) {
@@ -405,6 +401,10 @@
 			width: 15rem;
 			margin-top: 5rem;
 			align-self: flex-end;
+		}
+
+		.button-end {
+			margin-top: 0;
 		}
 	}
 	@media (max-width: 1300px) {
@@ -431,6 +431,11 @@
 			height: 100%;
 		}
 		.editor-button {
+			font-size: 1.2rem;
+			padding: 0.5rem 1rem;
+			width: 10rem;
+		}
+		.link {
 			font-size: 1.2rem;
 			padding: 0.5rem 1rem;
 			width: 10rem;

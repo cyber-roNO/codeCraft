@@ -119,6 +119,9 @@
 	}
 
 	@media (max-width: 1000px) {
+		.wrapper {
+			height: 100%;
+		}
 		.cards-wrapper {
 			grid-template-columns: repeat(1, 28rem);
 		}

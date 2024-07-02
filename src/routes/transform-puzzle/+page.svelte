@@ -181,9 +181,6 @@
 </main>
 
 <style>
-	:global(body) {
-		background: #fdf4e3;
-	}
 	main {
 		display: flex;
 		align-items: center;
@@ -358,7 +355,6 @@
 		background: #569cd6;
 		align-self: center;
 		text-align: center;
-		margin-top: 2rem;
 		flex-basis: 50%;
 	}
 	@media (max-width: 1500px) {
@@ -403,6 +399,11 @@
 		.editor-button {
 			font-size: 1.2rem;
 			padding: 0.5rem 1rem;
+		}
+		.link {
+			font-size: 1.2rem;
+			padding: 0.5rem 1rem;
+			width: 10rem;
 		}
 		.editor,
 		.editor-input {
